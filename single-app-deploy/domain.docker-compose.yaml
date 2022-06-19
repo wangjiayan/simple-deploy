@@ -1,0 +1,17 @@
+version: "3"
+services:
+  domain:
+    build:
+      context: .
+      dockerfile: router.Dockerfile
+    labels:
+      # 为 cra 配置我们的自定义域名
+      - "traefik.http.routers.cra.rule=Host(`www.wangjiayan.cn`)"
+      # 设置 https，此时我们的 certresolver 为 le，与上篇文章配置保持一致
+      - traefik.http.routers.cra.tls=true
+      - traefik.http.routers.cra.tls.certresolver=le
+
+networks:
+  default:
+    external:
+      name: traefik_default
